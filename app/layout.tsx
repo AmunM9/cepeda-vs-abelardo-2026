@@ -11,6 +11,17 @@ export const metadata: Metadata = {
       "Datos verificados con fuentes citadas. Sin sesgo editorial. Decide con información.",
     type: "website",
   },
+  icons: {
+    icon: [
+      { url: "https://7kyibpw30uo7mf99.public.blob.vercel-storage.com/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "https://7kyibpw30uo7mf99.public.blob.vercel-storage.com/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "https://7kyibpw30uo7mf99.public.blob.vercel-storage.com/favicon.ico", type: "image/x-icon" },
+    ],
+    apple: [
+      { url: "https://7kyibpw30uo7mf99.public.blob.vercel-storage.com/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({
