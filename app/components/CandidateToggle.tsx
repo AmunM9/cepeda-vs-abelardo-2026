@@ -37,7 +37,11 @@ export default function CandidateToggle() {
     toggle();
 
     if (activeSectionId === "hero") {
+      document.documentElement.style.scrollBehavior = "auto";
       window.scrollTo({ top: 0, behavior: "auto" });
+      requestAnimationFrame(() => {
+        document.documentElement.style.scrollBehavior = "";
+      });
       return;
     }
 
@@ -47,9 +51,18 @@ export default function CandidateToggle() {
       if (el) {
         const rect = el.getBoundingClientRect();
         const targetScrollY = window.scrollY + rect.top - stickyOffset;
+        
+        // Temporarily disable global smooth scrolling
+        document.documentElement.style.scrollBehavior = "auto";
+        
         window.scrollTo({
           top: targetScrollY,
           behavior: "auto"
+        });
+        
+        // Restore global smooth scrolling in the next frame
+        requestAnimationFrame(() => {
+          document.documentElement.style.scrollBehavior = "";
         });
       }
     }, 0);
