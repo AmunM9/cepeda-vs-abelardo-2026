@@ -10,6 +10,7 @@ import Apoyos from "./components/Apoyos";
 import Footer from "./components/Footer";
 import { CandidateToggleProvider } from "./components/CandidateToggleContext";
 import CandidateToggle from "./components/CandidateToggle";
+import ShareSystem from "./components/share/ShareSystem";
 
 export default function Home() {
   return (
@@ -27,6 +28,7 @@ export default function Home() {
         <Apoyos />
       </main>
       <Footer />
+      <ShareSystem />
     </CandidateToggleProvider>
   );
 }

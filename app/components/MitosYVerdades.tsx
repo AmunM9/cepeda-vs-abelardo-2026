@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import ScrollReveal from "./ScrollReveal";
 import { useCandidate } from "./CandidateToggleContext";
+import ShareCTAInline from "./share/ShareCTAInline";
 
 type Veredicto = "falso" | "parcial" | "verdadero" | "no_verificable";
 
@@ -425,6 +426,9 @@ export default function MitosYVerdades() {
             ))}
           </motion.div>
         </div>
+
+        {/* Share CTA */}
+        <ShareCTAInline />
 
         {/* Info block */}
         <ScrollReveal>
