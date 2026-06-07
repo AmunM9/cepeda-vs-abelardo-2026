@@ -133,7 +133,11 @@ export default function Footer() {
         >
           <div
             className="glass rounded-2xl p-6 max-w-lg w-full max-h-[80vh] overflow-y-auto"
-            style={{ border: "1px solid rgba(255,255,255,0.12)" }}
+            style={{
+              background: "rgba(10, 10, 18, 0.96)",
+              backdropFilter: "blur(16px)",
+              border: "1px solid rgba(255, 255, 255, 0.12)",
+            }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-5">
