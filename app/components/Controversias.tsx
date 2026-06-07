@@ -29,10 +29,10 @@ const CONTROVERSIAS: Controversia[] = [
     badge: "incoherencia",
     texto: "En noviembre de 2025 propuso legalizar el 10% de los capitales ilegales del narcotráfico: «Usted entrega el noventa por ciento, me paga tres años de cárcel, y yo no lo extradito.» La propuesta desapareció de su programa oficial de segunda vuelta, mientras su discurso actual es «cero negociaciones con criminales» y extradición masiva.",
     fuentes: [
-      { label: "Infobae Colombia (nov 2025)", href: "https://www.infobae.com/colombia/2025/11/11/daniel-quintero-reacciono-a-la-primer-propuesta-de-abelardo-de-la-espriella-como-presidencial-lo-que-tenemos-aqui-es-un-bandido/" },
-      { label: "El Tiempo (nov 2025)", href: "https://www.eltiempo.com/politica/partidos-politicos/luis-carlos-reyes-mr-taxes-critico-una-propuestas-de-abelardo-de-la-espriella-3508506" },
+      { label: "Infobae Colombia (nov 2025)", href: "https://www.infobae.com/colombia/2025/11/11/daniel-quintero-reacciono-a-la-primer-propuesta-de-abelardo-de-la-espriella-como-aspirante-presidencial-lo-que-tenemos-aqui-es-un-bandido/" },
+      { label: "El Tiempo (nov 2025)", href: "https://www.eltiempo.com/amp/politica/partidos-politicos/luis-carlos-reyes-mr-taxes-critico-una-propuestas-de-abelardo-de-la-espriella-hay-que-hacer-justicia-no-darles-tranquilidad-a-criminales-3508506" },
       { label: "Colombia.com (nov 2025)", href: "https://www.colombia.com/actualidad/politica/abelardo-de-la-espriella-propone-legalizar-el-10-de-capitales-ilegales-y-desata-debate-nacional-550884" },
-      { label: "Infobae Colombia (jun 2026)", href: "https://www.infobae.com/colombia/2026/06/01/maria-del-mar-pizarro-destapo-las-ocho-iniciativas-de-abelardo-de-la-espriella-que-mas-polemica-generan/" },
+      { label: "Infobae Colombia (jun 2026)", href: "https://www.infobae.com/colombia/2026/06/01/maria-del-mar-pizarro-destapo-las-ocho-iniciativas-de-abelardo-de-la-espriella-que-mas-polemica-generan-propuestas-que-asustan/" },
     ],
   },
   {
@@ -98,7 +98,7 @@ const CONTROVERSIAS: Controversia[] = [
     badge: "electoral",
     texto: "La coalición izquierdista Progressive International alertó sobre la presencia del senador estadounidense Bernie Moreno en Colombia para facilitar una alianza electoral. La Cancillería colombiana rechazó «cualquier intento de injerencia externa».",
     fuentes: [
-      { label: "El Colombiano", href: "https://www.elcolombiano.com/colombia/cancilleria-rechaza-injerencia-externa-proceso-electoral-HE37208765" },
+      { label: "El Colombiano", href: "https://www.elespectador.com/mundo/america/gobierno-de-colombia-rechaza-intervencion-externa-en-elecciones/" },
     ],
   },
   {

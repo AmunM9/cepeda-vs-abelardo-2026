@@ -24,8 +24,8 @@ const CONTRADICCIONES: Contradiccion[] = [
     ahoraAno: "jun 2026",
     ahora: "La propuesta desapareció del programa oficial de segunda vuelta. Su discurso actual: «cero negociaciones con criminales», destruir 330.000 hectáreas de coca y extradición masiva.",
     fuentes: [
-      { label: "Infobae Colombia", href: "https://www.infobae.com/colombia/2025/11/11/daniel-quintero-reacciono-a-la-primer-propuesta-de-abelardo-de-la-espriella-como-presidencial-lo-que-tenemos-aqui-es-un-bandido/" },
-      { label: "El Tiempo", href: "https://www.eltiempo.com/politica/partidos-politicos/luis-carlos-reyes-mr-taxes-critico-una-propuestas-de-abelardo-de-la-espriella-3508506" },
+      { label: "Infobae Colombia", href: "https://www.infobae.com/colombia/2025/11/11/daniel-quintero-reacciono-a-la-primer-propuesta-de-abelardo-de-la-espriella-como-aspirante-presidencial-lo-que-tenemos-aqui-es-un-bandido/" },
+      { label: "El Tiempo", href: "https://www.eltiempo.com/amp/politica/partidos-politicos/luis-carlos-reyes-mr-taxes-critico-una-propuestas-de-abelardo-de-la-espriella-hay-que-hacer-justicia-no-darles-tranquilidad-a-criminales-3508506" },
       { label: "Colombia.com", href: "https://www.colombia.com/actualidad/politica/abelardo-de-la-espriella-propone-legalizar-el-10-de-capitales-ilegales-y-desata-debate-nacional-550884" },
     ],
   },

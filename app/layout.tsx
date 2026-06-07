@@ -9,8 +9,26 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Cepeda vs. De la Espriella — Segunda Vuelta Colombia 2026",
     description:
-      "Datos verificados con fuentes citadas. Sin sesgo editorial. Decide con información.",
+      "\u{1F1E8}\u{1F1F4} Compara propuestas, controversias y mitos verificados con fuentes citadas. Sin sesgo editorial. Vota con informacion, no con rumores.",
     type: "website",
+    url: "https://cepeda-vs-abelardo.vercel.app",
+    siteName: "Colombia Elige 2026",
+    locale: "es_CO",
+    images: [
+      {
+        url: "https://7kyibpw30uo7mf99.public.blob.vercel-storage.com/og-image.jpeg",
+        width: 1200,
+        height: 630,
+        alt: "Cepeda vs. De la Espriella — Segunda Vuelta Colombia 2026",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Cepeda vs. De la Espriella — Segunda Vuelta 2026",
+    description:
+      "Compara propuestas, controversias y mitos verificados. Vota con informacion, no con rumores.",
+    images: ["https://7kyibpw30uo7mf99.public.blob.vercel-storage.com/og-image.jpeg"],
   },
   icons: {
     icon: [
