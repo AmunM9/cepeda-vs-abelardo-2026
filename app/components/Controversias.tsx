@@ -88,7 +88,7 @@ const CONTROVERSIAS: Controversia[] = [
     badge: "electoral",
     texto: "El Juzgado 120 Penal Municipal de Bogotá (3 jun 2026) ordenó a De la Espriella y Defensores de la Patria abstenerse de usar la camiseta oficial de la Selección Colombia en campaña, argumentando que asociar símbolos nacionales a una opción electoral puede vulnerar derechos fundamentales.",
     fuentes: [
-      { label: "El Espectador", href: "https://www.elespectador.com" },
+      { label: "El Espectador", href: "https://www.elespectador.com/judicial/prohiben-a-abelardo-de-la-espriella-usar-la-camiseta-de-la-seleccion-colombia-en-campana/" },
       { label: "Wikipedia EN", href: "https://en.wikipedia.org/wiki/Abelardo_de_la_Espriella" },
     ],
   },
@@ -98,7 +98,7 @@ const CONTROVERSIAS: Controversia[] = [
     badge: "electoral",
     texto: "La coalición izquierdista Progressive International alertó sobre la presencia del senador estadounidense Bernie Moreno en Colombia para facilitar una alianza electoral. La Cancillería colombiana rechazó «cualquier intento de injerencia externa».",
     fuentes: [
-      { label: "Common Dreams", href: "https://www.commondreams.org/news/colombia-presidential-election-first-round" },
+      { label: "El Colombiano", href: "https://www.elcolombiano.com/colombia/cancilleria-rechaza-injerencia-externa-proceso-electoral-HE37208765" },
     ],
   },
   {
@@ -126,7 +126,7 @@ const CONTROVERSIAS: Controversia[] = [
     badge: "etico",
     texto: "Diagnóstico de cáncer de colon (2018) y lesión hepática (2021–2022). Predica transparencia como pilar de campaña, pero su campaña no respondió solicitudes de información médica verificable entre marzo y mayo 2026.",
     fuentes: [
-      { label: "El Colombiano", href: "https://www.elcolombiano.com/especiales/elecciones-2026/salud-ivan-cepeda-debate-transparencia-examenes-medicos" },
+      { label: "El Colombiano", href: "https://www.elcolombiano.com/especiales/elecciones-2026/salud-ivan-cepeda-debate-transparencia-examenes-medicos-EE36545537" },
     ],
   },
   {

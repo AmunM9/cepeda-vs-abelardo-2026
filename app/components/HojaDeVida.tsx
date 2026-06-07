@@ -130,7 +130,7 @@ export default function HojaDeVida() {
                 <AlertCircle size={13} className="flex-shrink-0 mt-0.5" style={{ color: "#FBBF24" }} />
                 <p className="text-xs" style={{ color: "var(--text-secondary)", fontFamily: "'DM Sans', sans-serif" }}>
                   <strong style={{ color: "#FBBF24" }}>Salud:</strong> Diagnóstico de cáncer de colon (2018); lesión hepática tratada (2021–2022). La campaña no respondió solicitudes de información médica verificable (mar–may 2026).{" "}
-                  <a href="https://www.elcolombiano.com/especiales/elecciones-2026/salud-ivan-cepeda-debate-transparencia-examenes-medicos" target="_blank" rel="noopener noreferrer" className="source-link">El Colombiano ↗</a>
+                  <a href="https://www.elcolombiano.com/especiales/elecciones-2026/salud-ivan-cepeda-debate-transparencia-examenes-medicos-EE36545537" target="_blank" rel="noopener noreferrer" className="source-link">El Colombiano ↗</a>
                 </p>
               </div>
 

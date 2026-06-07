@@ -132,7 +132,7 @@ const CONTRADICCIONES: Contradiccion[] = [
     ahoraAno: "mar–may 2026",
     ahora: "Diagnosticado con cáncer de colon (2018) y lesión hepática tratada (2021–2022). La Silla Vacía solicitó en múltiples ocasiones información médica verificable a la campaña y no obtuvo respuesta.",
     fuentes: [
-      { label: "El Colombiano", href: "https://www.elcolombiano.com/especiales/elecciones-2026/salud-ivan-cepeda-debate-transparencia-examenes-medicos" },
+      { label: "El Colombiano", href: "https://www.elcolombiano.com/especiales/elecciones-2026/salud-ivan-cepeda-debate-transparencia-examenes-medicos-EE36545537" },
       { label: "La Silla Vacía", href: "https://www.lasillavacia.com/ivan-cepeda/" },
     ],
   },
