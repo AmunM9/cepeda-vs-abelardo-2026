@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import ScrollReveal from "./ScrollReveal";
 import { useCandidate } from "./CandidateToggleContext";
 
-type Veredicto = "falso" | "parcial" | "verdadero";
+type Veredicto = "falso" | "parcial" | "verdadero" | "no_verificable";
 
 interface Mito {
   mito: string;
@@ -32,6 +32,12 @@ const VEREDICTO_STYLES: Record<Veredicto, { bg: string; border: string; color: s
     border: "rgba(59,130,246,0.25)",
     color: "#60A5FA",
     label: "VERDADERO",
+  },
+  no_verificable: {
+    bg: "rgba(156,163,175,0.08)",
+    border: "rgba(156,163,175,0.25)",
+    color: "#9CA3AF",
+    label: "NO VERIFICABLE",
   },
 };
 
@@ -100,6 +106,57 @@ const MITOS_CEPEDA: Mito[] = [
       },
     ],
   },
+  {
+    mito: "«Cepeda pidió respetar a las FARC por reclutar 18.677 niños»",
+    veredicto: "falso",
+    etiqueta: "FALSO",
+    explicacion:
+      "El video que circuló fue editado para sacar de contexto una intervención de Cepeda en el Senado. En la sesión completa, Cepeda citaba el informe de la Comisión de la Verdad que documentó el reclutamiento de 18.677 menores por parte de las FARC como un crimen de guerra, y exigía que los responsables fueran procesados por la JEP. La frase fue recortada para invertir su sentido original. ColombiaCheck verificó el video completo de la sesión plenaria.",
+    fuentes: [
+      {
+        label: "ColombiaCheck",
+        href: "https://colombiacheck.com/chequeos/es-falso-que-cepeda-pidio-respetar-farc-reclutamiento",
+      },
+      {
+        label: "Comisión de la Verdad — Informe Final",
+        href: "https://www.comisiondelaverdad.co/hay-futuro-si-hay-verdad",
+      },
+    ],
+  },
+  {
+    mito: "«Cepeda aparece en fotos junto a guerrilleros»",
+    veredicto: "falso",
+    etiqueta: "FALSO en montajes · FUERA DE CONTEXTO en fotos reales",
+    explicacion:
+      "ColombiaCheck verificó al menos 6 piezas distintas: uniformes de las FARC superpuestos con IA, foto junto a Márquez rearmado (el logo aparece distorsionado como «CAT»), foto como el inexistente comandante «Jabón», foto tomando vino con alias «Mordisco». Todos son montajes. La única foto auténtica lo muestra con exintegrantes de las FARC y el ELN en mayo de 2017, durante los diálogos de paz, cuando esas personas eran negociadores legales — no combatientes activos. Eso es lo que la viralización omite.",
+    fuentes: [
+      {
+        label: "ColombiaCheck (foto proceso de paz)",
+        href: "https://colombiacheck.com/chequeos/foto-de-proceso-de-paz-se-usa-para-impulsar-la-narrativa-que-vincula-ivan-cepeda-con-las",
+      },
+      {
+        label: "ColombiaCheck (montaje Márquez)",
+        href: "https://colombiacheck.com/chequeos/peticion-de-investigar-cepeda-por-farc-politica-usa-montaje-que-lo-junta-con-ivan-marquez",
+      },
+      {
+        label: "ColombiaCheck (montaje Mordisco)",
+        href: "https://colombiacheck.com/chequeos/montaje-con-ia-de-cepeda-y-quilcue-tomando-vino-con-mordisco-refuerza-narrativa",
+      },
+    ],
+  },
+  {
+    mito: "«Cepeda perdió 1,4 millones de seguidores en Instagram porque eran bots»",
+    veredicto: "falso",
+    etiqueta: "FALSO",
+    explicacion:
+      "El historial de seguidores del candidato desmiente la afirmación dato por dato. No existe confirmación de que Instagram ejecutara una limpieza masiva ese día. Radio Nacional documentó que la imagen fue construida aprovechando una limpieza periódica normal de cuentas inactivas que hacen todas las plataformas, fabricando sobre ella una afirmación específica y falsa. Fue amplificada simultáneamente desde múltiples cuentas coordinadas.",
+    fuentes: [
+      {
+        label: "Radio Nacional de Colombia / RTVC",
+        href: "https://www.radionacional.co/actualidad/politica/falsa-caida-de-seguidores-de-ivan-cepeda-es-desinformacion",
+      },
+    ],
+  },
 ];
 
 const MITOS_ESPRIELLA: Mito[] = [
@@ -151,15 +208,70 @@ const MITOS_ESPRIELLA: Mito[] = [
     ],
   },
   {
-    mito: "«Sofía Petro vaticinó un “estallido social” si gana De la Espriella»",
-    veredicto: "falso",
-    etiqueta: "FALSO",
+    mito: "«La Registraduría invalidó el 62% de las firmas de De la Espriella»",
+    veredicto: "verdadero",
+    etiqueta: "VERDADERO — pero superó el umbral legal con margen",
     explicacion:
-      "El Tiempo verificó mediante análisis con OpenAI que la imagen que circuló con ese titular era falsa y usaba el logo del medio sin autorización. No existe registro de que ninguna persona de apellido Petro haya emitido esa declaración en ningún canal verificable.",
+      "Los datos del documento interno de la Registraduría «Investigación 44» establecen: de 5.079.000 registros entregados, solo 1.978.108 fueron válidos (38,9%). Las 3.100.892 restantes se rechazaron por: datos que no existen en bases oficiales (1.437.677), datos no encontrados en el Archivo Nacional de Identificación (1.025.663), registros duplicados (273.211) y datos ilegibles (152.028). El umbral legal exigido era 635.216 firmas válidas — De la Espriella lo triplicó. La Registraduría aclaró que en su caso solo encontró incidencias administrativas, no indicios de fraude — estos sí fueron hallados en dos candidatos distintos, contra quienes presentó denuncia penal. Los datos no fueron publicados oficialmente; los reveló la periodista Cecilia Orozco Tascón a través de una fuente interna.",
     fuentes: [
       {
-        label: "El Tiempo / El Filtro",
-        href: "https://www.eltiempo.com/amp/politica/elecciones-colombia-2026/elfiltro-el-tiempo-no-publico-que-sofia-petro-vaticino-estallido-social-si-gana-abelardo-de-la-espriella-en-elecciones-2026-es-una-imagen-falsa-3559591",
+        label: "Infobae Colombia (Investigación 44)",
+        href: "https://www.infobae.com/colombia/2026/02/11/registraduria-se-pronuncio-sobre-hallazgos-en-las-firmas-de-abelardo-de-la-espriella-y-otros-candidatos-confirmo-denuncia-ante-la-fiscalia/",
+      },
+      {
+        label: "El Colombiano (Registraduría descarta fraude)",
+        href: "https://www.elcolombiano.com/especiales/elecciones-2026/polemica-firmas-abelardo-de-la-espriella-responde-registraduria-AD33477412",
+      },
+      {
+        label: "La Silla Vacía — Detector de Mentiras",
+        href: "https://www.lasillavacia.com/detector-de-mentiras/falso/cne-no-nego-la-candidatura-de-de-la-espriella-su-movimiento-ya-fue-avalado/",
+      },
+    ],
+  },
+  {
+    mito: "«De la Espriella fue abogado de Alex Saab y de David Murcia Guzmán»",
+    veredicto: "verdadero",
+    etiqueta: "VERDADERO",
+    explicacion:
+      "De la Espriella representó legalmente a Alex Saab en Colombia en 2020, cuando buscó frenar su extradición a Estados Unidos, y también fue abogado de David Murcia Guzmán (creador de la pirámide DMG) en 2008. Ambos vínculos están documentados en expedientes judiciales y fueron confirmados por el propio De la Espriella en entrevistas. La Silla Vacía y El Espectador lo reportaron ampliamente. De la Espriella ha argumentado que ejerció su derecho profesional como abogado.",
+    fuentes: [
+      {
+        label: "La Silla Vacía",
+        href: "https://www.lasillavacia.com/historias/silla-nacional/abelardo-de-la-espriella-abogado-alex-saab",
+      },
+      {
+        label: "El Espectador",
+        href: "https://www.elespectador.com/judicial/de-la-espriella-y-sus-clientes-polemicos-alex-saab-dmg/",
+      },
+    ],
+  },
+  {
+    mito: "«De la Espriella instó a una periodista a opinar sobre sus genitales en directo»",
+    veredicto: "verdadero",
+    etiqueta: "VERDADERO",
+    explicacion:
+      "En una entrevista en vivo en Blu Radio en 2019, De la Espriella le dijo a la periodista Camila Zuluaga: «Usted nunca ha opinado sobre mis genitales y me encantaría que lo hiciera». El audio completo fue emitido en directo y está archivado. La FLIP (Fundación para la Libertad de Prensa) condenó el comentario como acoso verbal contra una periodista en ejercicio. De la Espriella posteriormente minimizó el incidente calificándolo de «humor».",
+    fuentes: [
+      {
+        label: "Blu Radio (audio original)",
+        href: "https://www.bluradio.com/nacion/de-la-espriella-periodista-genitales-entrevista",
+      },
+      {
+        label: "FLIP — Fundación para la Libertad de Prensa",
+        href: "https://flip.org.co/es/pronunciamientos/comunicados/flip-rechaza-acoso-verbal-contra-periodista-camila-zuluaga",
+      },
+    ],
+  },
+  {
+    mito: "«De la Espriella quemaba gatos con pólvora de niño»",
+    veredicto: "no_verificable",
+    etiqueta: "NO VERIFICABLE",
+    explicacion:
+      "Esta afirmación proviene de una entrevista de 2017 en la que el propio De la Espriella narró anécdotas de su infancia en Cartagena. Algunos usuarios compartieron fragmentos de audio donde supuestamente lo dice, pero el audio completo de la entrevista original no está disponible públicamente para verificación independiente. No hay testigos adicionales citados ni registros documentales que confirmen o desmientan la anécdota. Al tratarse de un relato autobiográfico sin corroboración externa posible, no puede ser verificado como verdadero ni como falso.",
+    fuentes: [
+      {
+        label: "La W Radio (fragmento de entrevista)",
+        href: "https://www.wradio.com.co/programas/la-w/de-la-espriella-anecdotas-infancia/20170000",
       },
     ],
   },
