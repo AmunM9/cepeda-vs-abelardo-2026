@@ -32,7 +32,7 @@ export default function Apoyos() {
         <ScrollReveal>
           <div className="text-center mb-10">
             <span className="badge" style={{ background: "rgba(255,255,255,0.05)", color: "var(--text-muted)", border: "1px solid rgba(255,255,255,0.08)", fontFamily: "'DM Sans', sans-serif" }}>
-              Sección 8
+              Sección 7
             </span>
             <h2 className="text-section font-barlow-cond font-bold uppercase tracking-wide mt-3" style={{ fontFamily: "'Barlow Condensed', sans-serif", color: "var(--text-primary)" }}>
               Apoyos políticos para la 2ª vuelta

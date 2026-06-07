@@ -2,10 +2,12 @@
 
 import { motion } from "framer-motion";
 import { useCandidate } from "./CandidateToggleContext";
+import { useEffect, useRef } from "react";
 
 export default function CandidateToggle() {
   const { active, toggle } = useCandidate();
   const isCepeda = active === "cepeda";
+  const activeSectionIdRef = useRef<string | null>(null);
 
   const handleToggle = () => {
     const stickyOffset = 120; // 56px navbar + 64px toggle bar
@@ -33,10 +35,21 @@ export default function CandidateToggle() {
       }
     }
 
+    // Save the section we were viewing in a ref
+    activeSectionIdRef.current = activeSectionId;
+    
     // Toggle candidate state
     toggle();
+  };
 
-    if (activeSectionId === "hero") {
+  useEffect(() => {
+    const targetId = activeSectionIdRef.current;
+    if (!targetId) return;
+    activeSectionIdRef.current = null; // Reset ref
+
+    const stickyOffset = 120;
+
+    if (targetId === "hero") {
       document.documentElement.style.scrollBehavior = "auto";
       window.scrollTo({ top: 0, behavior: "auto" });
       requestAnimationFrame(() => {
@@ -45,9 +58,9 @@ export default function CandidateToggle() {
       return;
     }
 
-    // Wait for the DOM to update with new heights and scroll to the section's new position
+    // Wait 50ms to allow React updates and browser layouts (and height adjustments of preceding sections) to fully settle
     setTimeout(() => {
-      const el = document.getElementById(activeSectionId);
+      const el = document.getElementById(targetId);
       if (el) {
         const rect = el.getBoundingClientRect();
         const targetScrollY = window.scrollY + rect.top - stickyOffset;
@@ -65,8 +78,8 @@ export default function CandidateToggle() {
           document.documentElement.style.scrollBehavior = "";
         });
       }
-    }, 0);
-  };
+    }, 50);
+  }, [active]);
 
   return (
     <div className="md:hidden sticky top-[56px] z-40 flex justify-center py-3 px-4" style={{ background: "rgba(10,10,18,0.92)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
