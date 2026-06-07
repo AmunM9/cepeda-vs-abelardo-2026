@@ -301,20 +301,17 @@ export default function MitosYVerdades() {
 
         {/* Mobile: show selected candidate via global toggle */}
         <div className="md:hidden mb-12">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, x: activeTab === "cepeda" ? -20 : 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: activeTab === "cepeda" ? 20 : -20 }}
-              transition={{ duration: 0.3 }}
-              className="flex flex-col gap-6"
-            >
-              {(activeTab === "cepeda" ? MITOS_CEPEDA : MITOS_ESPRIELLA).map((m) => (
-                <MitoCard key={m.mito} mito={m} />
-              ))}
-            </motion.div>
-          </AnimatePresence>
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.2 }}
+            className="flex flex-col gap-6"
+          >
+            {(activeTab === "cepeda" ? MITOS_CEPEDA : MITOS_ESPRIELLA).map((m) => (
+              <MitoCard key={m.mito} mito={m} />
+            ))}
+          </motion.div>
         </div>
 
         {/* Info block */}
