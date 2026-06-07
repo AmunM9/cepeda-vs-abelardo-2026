@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
   title: "Comparador Segunda Vuelta Colombia 2026 | Cepeda vs. De la Espriella",
@@ -31,7 +32,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" className="h-full">
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
