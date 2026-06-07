@@ -175,66 +175,47 @@ export default function ShareFAB({ onToast }: ShareFABProps) {
               })}
           </AnimatePresence>
 
-          {/* Main FAB — mobile: gradient bg + label; desktop: animated border */}
-          {isMobile ? (
-            <motion.button
-              whileTap={{ scale: 0.92 }}
-              onClick={handleFABClick}
-              disabled={loading}
-              className="rounded-full flex items-center gap-2 px-5 py-3"
-              style={{
-                background: "linear-gradient(135deg, #8B5CF6, #D4AF37)",
-                color: "#FFFFFF",
-                boxShadow: "0 4px 20px rgba(139,92,246,0.4), 0 2px 8px rgba(0,0,0,0.3)",
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: "14px",
-                fontWeight: 600,
-              }}
-              aria-label="Compartir"
-            >
-              <Share2 size={20} strokeWidth={2.5} />
-              <span>{loading ? "Generando..." : "Compartir"}</span>
-            </motion.button>
-          ) : (
-            <motion.button
-              whileHover={{ scale: 1.08 }}
-              whileTap={{ scale: 0.92 }}
-              onClick={handleFABClick}
-              disabled={loading}
-              className="w-[56px] h-[56px] rounded-full flex items-center justify-center relative share-fab-border"
-              style={{
-                background: "#0A0A0F",
-                color: "#F0EFF4",
-                boxShadow:
-                  "0 4px 24px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05)",
-              }}
-              aria-label="Compartir"
-            >
-              <AnimatePresence mode="wait">
-                {isOpen ? (
-                  <motion.span
-                    key="close"
-                    initial={{ rotate: -90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: 90, opacity: 0 }}
-                    transition={{ duration: 0.15 }}
-                  >
-                    <X size={24} />
-                  </motion.span>
-                ) : (
-                  <motion.span
-                    key="share"
-                    initial={{ rotate: 90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: -90, opacity: 0 }}
-                    transition={{ duration: 0.15 }}
-                  >
-                    <Share2 size={24} />
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </motion.button>
-          )}
+          {/* Main FAB — animated gradient border + share icon */}
+          <motion.button
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.92 }}
+            onClick={handleFABClick}
+            disabled={loading}
+            className="w-[56px] h-[56px] rounded-full flex items-center justify-center relative share-fab-border"
+            style={{
+              background: "#0A0A0F",
+              color: "#FFFFFF",
+              boxShadow:
+                "0 4px 24px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05)",
+            }}
+            aria-label="Compartir"
+          >
+            <AnimatePresence mode="wait">
+              {isOpen ? (
+                <motion.span
+                  key="close"
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
+                  transition={{ duration: 0.15 }}
+                  className="relative z-10"
+                >
+                  <X size={24} />
+                </motion.span>
+              ) : (
+                <motion.span
+                  key="share"
+                  initial={{ rotate: 90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: -90, opacity: 0 }}
+                  transition={{ duration: 0.15 }}
+                  className="relative z-10"
+                >
+                  <Share2 size={24} strokeWidth={2.5} />
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </motion.button>
         </motion.div>
       )}
     </AnimatePresence>
