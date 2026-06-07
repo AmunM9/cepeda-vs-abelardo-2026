@@ -1,26 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Source+Serif+4:wght@300;400&family=Barlow+Condensed:wght@700;900&family=Barlow:wght@400;500;700&family=DM+Sans:wght@300;400;500;700&display=swap');
+
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --cepeda-primary: #5B2D8E;
+  --cepeda-secondary: #8B5CF6;
+  --cepeda-accent: #F5C518;
+  --cepeda-dark: #2D1457;
+  --cepeda-glass: rgba(91, 45, 142, 0.15);
+  --cepeda-glow: 0 0 40px rgba(139, 92, 246, 0.35);
+
+  --espriella-primary: #0F1D3D;
+  --espriella-secondary: #1E3A5F;
+  --espriella-accent: #D4AF37;
+  --espriella-dark: #080E1F;
+  --espriella-glass: rgba(212, 175, 55, 0.10);
+  --espriella-glow: 0 0 40px rgba(212, 175, 55, 0.35);
+
+  --bg-base: #0A0A0F;
+  --bg-surface: #111118;
+  --bg-card: #16161f;
+  --border-subtle: rgba(255,255,255,0.07);
+  --text-primary: #F0EFF4;
+  --text-secondary: #9B9AA8;
+  --text-muted: #8A8A9E;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+* { box-sizing: border-box; }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg-base);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.35;
+}
+
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+
+.font-playfair { font-family: 'Playfair Display', serif; }
+.font-source-serif { font-family: 'Source Serif 4', serif; }
+.font-barlow-cond { font-family: 'Barlow Condensed', sans-serif; }
+.font-barlow { font-family: 'Barlow', sans-serif; }
+
+.glass {
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+}
+
+.glass-cepeda {
+  background: var(--cepeda-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+.glass-espriella {
+  background: var(--espriella-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.text-gradient-cepeda {
+  background: linear-gradient(135deg, #C084FC 30%, #F5C518 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-espriella {
+  background: linear-gradient(135deg, #D4AF37 30%, #93C5FD 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.mesh-cepeda {
+  background:
+    radial-gradient(ellipse 70% 60% at 20% 50%, rgba(91, 45, 142, 0.25) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 40% at 80% 60%, rgba(139, 92, 246, 0.12) 0%, transparent 60%),
+    var(--bg-base);
+}
+
+.mesh-espriella {
+  background:
+    radial-gradient(ellipse 70% 60% at 80% 50%, rgba(30, 58, 95, 0.4) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 40% at 20% 60%, rgba(212, 175, 55, 0.1) 0%, transparent 60%),
+    var(--bg-base);
+}
+
+.mesh-neutral {
+  background:
+    radial-gradient(ellipse 100% 50% at 50% 0%, rgba(25, 25, 45, 0.6) 0%, transparent 70%),
+    var(--bg-base);
+}
+
+.section-pad {
+  padding: clamp(4rem, 8vw, 8rem) clamp(1rem, 5vw, 4rem);
+}
+
+.text-hero { font-size: clamp(2.2rem, 6vw, 5.5rem); }
+.text-section { font-size: clamp(1.6rem, 3.5vw, 2.8rem); }
+
+/* Hero candidate name responsive sizes */
+.hero-name-cepeda {
+  font-size: clamp(1.3rem, 8vw, 2rem);
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.8));
+}
+.hero-name-espriella {
+  font-size: clamp(1.1rem, 6.5vw, 1.7rem);
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.8));
+}
+@media (min-width: 768px) {
+  .hero-name-cepeda {
+    font-size: clamp(3rem, 5.5vw, 5.5rem);
+    filter: drop-shadow(0 4px 16px rgba(0,0,0,0.6));
+  }
+  .hero-name-espriella {
+    font-size: clamp(2.5rem, 4.5vw, 4.5rem);
+    filter: drop-shadow(0 4px 16px rgba(0,0,0,0.6));
+  }
+}
+
+.source-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.7rem;
+  border-bottom: 1px dotted rgba(255,255,255,0.2);
+  transition: color 150ms ease;
+}
+.source-link:hover { color: var(--text-secondary); }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.badge-etico { background: rgba(251,146,60,0.15); color: #FB923C; border: 1px solid rgba(251,146,60,0.3); }
+.badge-legal { background: rgba(239,68,68,0.15); color: #EF4444; border: 1px solid rgba(239,68,68,0.3); }
+.badge-declaraciones { background: rgba(251,191,36,0.15); color: #FBBF24; border: 1px solid rgba(251,191,36,0.3); }
+.badge-electoral { background: rgba(34,197,94,0.15); color: #22C55E; border: 1px solid rgba(34,197,94,0.3); }
+.badge-investigacion { background: rgba(99,102,241,0.15); color: #818CF8; border: 1px solid rgba(99,102,241,0.3); }
+.badge-incoherencia { background: rgba(244,63,94,0.15); color: #FB7185; border: 1px solid rgba(244,63,94,0.3); }
