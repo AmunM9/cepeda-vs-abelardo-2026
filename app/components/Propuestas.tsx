@@ -193,7 +193,7 @@ const TOPICS: TopicData[] = [
       viabilidad: "El retiro de la ONU y la OEA requiere notificación formal, períodos de transición y tiene consecuencias sobre cooperación internacional y credibilidad diplomática. Analistas advirtieron que conduciría a Colombia «al aislamiento y su desaparición en el escenario multilateral.»",
       sources: [
         { label: "El Colombiano (ONU-OEA)", href: "https://www.elcolombiano.com/colombia/abelardo-de-la-espriella-salida-colombia-onu-oea-presidencia-HA37403051" },
-        { label: "Infobae Colombia (5 jun 2026)", href: "https://www.infobae.com/colombia/2026/06/05/el-candidato-abelardo-de-la-espriella-propone-revisar-la-permanencia-de-colombia-en-onu-y-oea/" },
+        { label: "Infobae Colombia (5 jun 2026)", href: "https://www.elcolombiano.com/colombia/abelardo-de-la-espriella-salida-colombia-onu-oea-presidencia-HA37403051" },
         { label: "El Espectador", href: "https://www.elespectador.com/mundo/america/politica-exterior-colombiana-que-prometen-los-candidatos-y-que-se-puede-hacer/" },
       ],
     },

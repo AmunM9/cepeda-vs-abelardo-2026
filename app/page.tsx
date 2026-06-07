@@ -11,6 +11,7 @@ import Footer from "./components/Footer";
 import { CandidateToggleProvider } from "./components/CandidateToggleContext";
 import CandidateToggle from "./components/CandidateToggle";
 import ShareSystem from "./components/share/ShareSystem";
+import ShareCTAInline from "./components/share/ShareCTAInline";
 
 export default function Home() {
   return (
@@ -26,6 +27,9 @@ export default function Home() {
         <Contradicciones />
         <TablaComparativa />
         <Apoyos />
+        <section id="compartir" className="px-4 pb-16">
+          <ShareCTAInline />
+        </section>
       </main>
       <Footer />
       <ShareSystem />

@@ -13,6 +13,7 @@ const NAV_LINKS = [
   { href: "#contradicciones", label: "Contradicciones" },
   { href: "#tabla", label: "Comparación" },
   { href: "#apoyos", label: "Apoyos" },
+  { href: "#compartir", label: "Compartir" },
 ];
 
 export default function NavBar() {

@@ -3,7 +3,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import ScrollReveal from "./ScrollReveal";
 import { useCandidate } from "./CandidateToggleContext";
-import ShareCTAInline from "./share/ShareCTAInline";
 
 type Veredicto = "falso" | "parcial" | "verdadero" | "no_verificable";
 
@@ -116,7 +115,7 @@ const MITOS_CEPEDA: Mito[] = [
     fuentes: [
       {
         label: "ColombiaCheck",
-        href: "https://colombiacheck.com/chequeos/es-falso-que-cepeda-pidio-respetar-farc-reclutamiento",
+        href: "https://colombiacheck.com/investigaciones/340-anuncios-pagados-en-meta-amplificaron-narrativas-para-asociar-ivan-cepeda-con",
       },
       {
         label: "Comisión de la Verdad — Informe Final",
@@ -238,11 +237,11 @@ const MITOS_ESPRIELLA: Mito[] = [
     fuentes: [
       {
         label: "La Silla Vacía",
-        href: "https://www.lasillavacia.com/historias/silla-nacional/abelardo-de-la-espriella-abogado-alex-saab",
+        href: "https://www.lasillavacia.com/silla-nacional/la-cronologia-que-no-cuadra-en-la-relacion-de-saab-y-de-la-espriella/",
       },
       {
         label: "El Espectador",
-        href: "https://www.elespectador.com/judicial/de-la-espriella-y-sus-clientes-polemicos-alex-saab-dmg/",
+        href: "https://www.lasillavacia.com/en-vivo/de-saab-a-parapoliticos-el-prontuario-de-exclientes-de-abelardo-de-la-espriella/",
       },
     ],
   },
@@ -255,11 +254,11 @@ const MITOS_ESPRIELLA: Mito[] = [
     fuentes: [
       {
         label: "Blu Radio (audio original)",
-        href: "https://www.bluradio.com/nacion/de-la-espriella-periodista-genitales-entrevista",
+        href: "https://www.portafolio.co/economia/gobierno/juez-ordena-a-abelardo-de-la-espriella-disculparse-con-periodista-laura-rodriguez-495351",
       },
       {
         label: "FLIP — Fundación para la Libertad de Prensa",
-        href: "https://flip.org.co/es/pronunciamientos/comunicados/flip-rechaza-acoso-verbal-contra-periodista-camila-zuluaga",
+        href: "https://flip.org.co/pronunciamientos/la-flip-rechaza-el-doxing-de-abelardo-de-la-espriella-en-contra-del-periodista-camilo-poveda",
       },
     ],
   },
@@ -272,7 +271,7 @@ const MITOS_ESPRIELLA: Mito[] = [
     fuentes: [
       {
         label: "La W Radio (fragmento de entrevista)",
-        href: "https://www.wradio.com.co/programas/la-w/de-la-espriella-anecdotas-infancia/20170000",
+        href: "https://www.infobae.com/colombia/2026/05/27/matador-desempolvo-entrevista-donde-abelardo-de-la-espriella-contaba-que-quemaba-gatos-cuando-era-nino-se-rie-contando-que-hizo-sufrir-a-un-animal/",
       },
     ],
   },
@@ -426,9 +425,6 @@ export default function MitosYVerdades() {
             ))}
           </motion.div>
         </div>
-
-        {/* Share CTA */}
-        <ShareCTAInline />
 
         {/* Info block */}
         <ScrollReveal>
