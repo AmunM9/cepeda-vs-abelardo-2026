@@ -118,7 +118,7 @@ export default function Footer() {
               className="text-xs leading-relaxed text-center"
               style={{ color: "var(--text-muted)", fontFamily: "'DM Sans', sans-serif", maxWidth: "600px", margin: "0 auto" }}
             >
-              Página informativa e independiente. No es material de campaña ni promueve ningún candidato. Todos los datos tienen fuente citada verificable. Las encuestas reflejan intención de voto, no resultados.
+              Página informativa e independiente. No es material de campaña ni promueve ningún candidato. Todos los datos tienen fuente citada verificable.
             </p>
           </ScrollReveal>
         </div>

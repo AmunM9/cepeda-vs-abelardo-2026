@@ -7,10 +7,58 @@ export default function CandidateToggle() {
   const { active, toggle } = useCandidate();
   const isCepeda = active === "cepeda";
 
+  const handleToggle = () => {
+    const stickyOffset = 120; // 56px navbar + 64px toggle bar
+    const sectionIds = ["hero", "hoja-de-vida", "propuestas", "controversias", "mitos", "contradicciones", "tabla", "apoyos"];
+    
+    let activeSectionId = "hero";
+    let maxOverlap = -1;
+    
+    const viewportTop = stickyOffset;
+    const viewportBottom = typeof window !== "undefined" ? window.innerHeight : 800;
+    
+    for (const id of sectionIds) {
+      const el = document.getElementById(id);
+      if (!el) continue;
+      const rect = el.getBoundingClientRect();
+      
+      // Calculate how many visible pixels of this section overlap with the active viewport area
+      const visibleTop = Math.max(rect.top, viewportTop);
+      const visibleBottom = Math.min(rect.bottom, viewportBottom);
+      const overlap = Math.max(0, visibleBottom - visibleTop);
+      
+      if (overlap > maxOverlap) {
+        maxOverlap = overlap;
+        activeSectionId = id;
+      }
+    }
+
+    // Toggle candidate state
+    toggle();
+
+    if (activeSectionId === "hero") {
+      window.scrollTo({ top: 0, behavior: "auto" });
+      return;
+    }
+
+    // Wait for the DOM to update with new heights and scroll to the section's new position
+    setTimeout(() => {
+      const el = document.getElementById(activeSectionId);
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        const targetScrollY = window.scrollY + rect.top - stickyOffset;
+        window.scrollTo({
+          top: targetScrollY,
+          behavior: "auto"
+        });
+      }
+    }, 0);
+  };
+
   return (
     <div className="md:hidden sticky top-[56px] z-40 flex justify-center py-3 px-4" style={{ background: "rgba(10,10,18,0.92)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
       <button
-        onClick={toggle}
+        onClick={handleToggle}
         className="relative flex items-center rounded-full p-1"
         style={{
           width: "260px",
