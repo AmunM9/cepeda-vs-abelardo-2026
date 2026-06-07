@@ -106,16 +106,25 @@ export async function shareNativeWithImage(): Promise<ShareResult> {
  */
 export function shareToFacebook(): ShareResult {
   const url = encodeURIComponent(SITE_URL);
-  window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, "_blank");
+  const quote = encodeURIComponent(SHARE_TEXT);
+  window.open(
+    `https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${quote}`,
+    "_blank"
+  );
   return { success: true, toast: "Abriendo Facebook..." };
 }
 
 /**
- * PC: open LinkedIn share dialog.
+ * PC: open LinkedIn share dialog with title and summary.
  */
 export function shareToLinkedIn(): ShareResult {
   const url = encodeURIComponent(SITE_URL);
-  window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, "_blank");
+  const title = encodeURIComponent("Colombia Elige 2026 — Cepeda vs. De la Espriella");
+  const summary = encodeURIComponent(SHARE_TEXT);
+  window.open(
+    `https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${title}&summary=${summary}`,
+    "_blank"
+  );
   return { success: true, toast: "Abriendo LinkedIn..." };
 }
 
