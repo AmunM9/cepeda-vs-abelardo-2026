@@ -126,7 +126,8 @@ export async function shareNativeWithImage(): Promise<ShareResult> {
       return { success: false, toast: "Compartir cancelado", cancelled: true };
     }
     /* Runtime failure (device lied about canShare, or share crashed) */
-    return { success: false, toast: "", cancelled: false };
+    const msg = err instanceof Error ? err.message : String(err);
+    return { success: false, toast: `Error al compartir: ${msg}`, cancelled: false };
   }
 }
 
@@ -208,8 +209,9 @@ export async function downloadImage(): Promise<ShareResult> {
     const blob = await canvasToBlob(canvas);
     downloadBlob(blob, "colombia-elige-2026.png");
     return { success: true, toast: "Imagen descargada" };
-  } catch {
-    return { success: false, toast: "Error al generar la imagen" };
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : String(err);
+    return { success: false, toast: `Error al generar imagen: ${msg}` };
   }
 }
 
