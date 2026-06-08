@@ -53,9 +53,10 @@ const DESKTOP_MENU: MenuButton[] = [
   { id: "facebook", icon: <FacebookIcon />, label: "Facebook" },
 ];
 
-/* Mobile fallback (no file share): Imagen, Copiar link, WhatsApp, X — reversed */
+/* Mobile fallback (no file share): Imagen, Copiar link, WhatsApp, LinkedIn, X — reversed */
 const MOBILE_FALLBACK_MENU: MenuButton[] = [
   { id: "twitter", icon: <XIcon />, label: "X" },
+  { id: "linkedin", icon: <LinkedInIcon />, label: "LinkedIn" },
   { id: "whatsapp", icon: <WhatsAppIcon />, label: "WhatsApp" },
   { id: "copy", icon: <Link size={20} />, label: "Copiar link" },
   { id: "download", icon: <Download size={20} />, label: "Imagen" },
@@ -141,14 +142,12 @@ export default function ShareFAB({ onToast }: ShareFABProps) {
              Switch to fallback menu permanently for this session. */
           setMode("mobile-fallback");
           setIsOpen(true);
-          onToast("Usa estas opciones para compartir");
         } else if (result.toast) {
           onToast(result.toast);
         }
       } catch {
         setMode("mobile-fallback");
         setIsOpen(true);
-        onToast("Usa estas opciones para compartir");
       } finally {
         setLoading(false);
       }

@@ -51,11 +51,12 @@ const DESKTOP_BUTTONS: ButtonDef[] = [
   { id: "download", icon: <Download size={18} />, label: "Imagen" },
 ];
 
-/* Mobile fallback (no file share): download, copy, whatsapp, x */
+/* Mobile fallback (no file share): download, copy, whatsapp, linkedin, x */
 const MOBILE_FALLBACK_BUTTONS: ButtonDef[] = [
   { id: "download", icon: <Download size={18} />, label: "Imagen" },
   { id: "copy", icon: <Link size={18} />, label: "Copiar link" },
   { id: "whatsapp", icon: <WhatsAppIcon />, label: "WhatsApp" },
+  { id: "linkedin", icon: <LinkedInIcon />, label: "LinkedIn" },
   { id: "twitter", icon: <XIcon />, label: "X" },
 ];
 
@@ -109,13 +110,11 @@ export default function ShareCTAInline() {
       if (result.cancelled === false && !result.success) {
         /* Runtime failure — switch to fallback buttons permanently */
         setMode("mobile-fallback");
-        setToastMsg("Usa estas opciones para compartir");
       } else if (result.toast) {
         setToastMsg(result.toast);
       }
     } catch {
       setMode("mobile-fallback");
-      setToastMsg("Usa estas opciones para compartir");
     } finally {
       setLoading(false);
     }
