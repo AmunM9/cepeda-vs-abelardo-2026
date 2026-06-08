@@ -1,0 +1,25 @@
+# Colombia Elige 2026 — Comparador presidencial segunda vuelta
+
+> Comparación neutral y verificada entre Iván Cepeda (Pacto Histórico) y Abelardo de la Espriella (Defensores de la Patria) para la segunda vuelta presidencial de Colombia el 21 de junio de 2026.
+
+## Contenido del sitio
+
+Este sitio compara a los dos candidatos en las siguientes dimensiones:
+
+- **Hoja de vida**: trayectoria profesional, cargos públicos, formación académica
+- **Propuestas comparadas**: economía, seguridad, salud, educación, medio ambiente, política exterior, reforma agraria, justicia, corrupción, derechos civiles
+- **Controversias documentadas**: con fuentes verificables para cada candidato
+- **Verificación de hechos**: mitos comunes sobre cada candidato clasificados como verdadero, falso, parcialmente cierto o engañoso
+- **Contradicciones documentadas**: declaraciones contradictorias de cada candidato con fechas y fuentes
+- **Tabla comparativa rápida**: resumen lado a lado
+- **Apoyos políticos**: coaliciones y respaldos de cada candidato
+
+## Política editorial
+
+- Sin sesgo editorial — presentación neutral de hechos verificados
+- Todas las afirmaciones tienen fuentes citadas
+- Fuentes preferidas: Registraduría Nacional, ColombiaCheck, La Silla Vacía, El Colombiano, Razón Pública, El Espectador, Reuters, AFP, EFE, CNN en Español, BBC Mundo
+
+## URL
+
+https://cepeda-vs-abelardo.vercel.app

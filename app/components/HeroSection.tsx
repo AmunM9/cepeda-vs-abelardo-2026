@@ -98,6 +98,10 @@ export default function HeroSection() {
         style={{ background: "linear-gradient(180deg, transparent, rgba(255,255,255,0.18) 30%, rgba(255,255,255,0.18) 70%, transparent)" }}
       />
 
+      <h1 className="sr-only">
+        Cepeda vs De la Espriella — Comparador Segunda Vuelta Presidencial Colombia 2026
+      </h1>
+
       {/* Top badge */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
