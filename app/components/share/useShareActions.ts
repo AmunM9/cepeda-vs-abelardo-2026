@@ -48,7 +48,7 @@ export function supportsNativeShare(): boolean {
   return typeof navigator !== "undefined" && !!navigator.share;
 }
 
-async function supportsFileShare(): Promise<boolean> {
+export async function supportsFileShare(): Promise<boolean> {
   if (!supportsNativeShare() || !navigator.canShare) return false;
   const testFile = new File(["test"], "test.png", { type: "image/png" });
   return navigator.canShare({ files: [testFile] });

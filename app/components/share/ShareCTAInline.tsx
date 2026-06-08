@@ -2,14 +2,17 @@
 
 import { useCallback, useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Share2, Download } from "lucide-react";
+import { Share2, Download, Link } from "lucide-react";
 import {
   supportsNativeShare,
+  supportsFileShare,
   executePlatformShare,
   type SharePlatform,
 } from "./useShareActions";
 import ScrollReveal from "../ScrollReveal";
 import Toast from "./Toast";
+
+/* ── Icon components ─────────────────────────────────────── */
 
 const WhatsAppIcon = ({ size = 18 }: { size?: number }) => (
   <svg viewBox="0 0 24 24" width={size} height={size} fill="currentColor">
@@ -35,23 +38,51 @@ const LinkedInIcon = () => (
   </svg>
 );
 
-/* Desktop buttons: Facebook, WhatsApp, LinkedIn, X, Download */
-const DESKTOP_BUTTONS: { id: SharePlatform; icon: React.ReactNode; label: string }[] = [
+/* ── Button definitions ──────────────────────────────────── */
+
+type ButtonDef = { id: SharePlatform; icon: React.ReactNode; label: string };
+
+/* Desktop / large screen: all platforms */
+const DESKTOP_BUTTONS: ButtonDef[] = [
   { id: "facebook", icon: <FacebookIcon />, label: "Facebook" },
   { id: "whatsapp", icon: <WhatsAppIcon />, label: "WhatsApp" },
   { id: "linkedin", icon: <LinkedInIcon />, label: "LinkedIn" },
   { id: "twitter", icon: <XIcon />, label: "X (Twitter)" },
-  { id: "download", icon: <Download size={18} />, label: "Descargar imagen" },
+  { id: "download", icon: <Download size={18} />, label: "Imagen" },
 ];
+
+/* Mobile fallback (no file share): download, copy, whatsapp, x */
+const MOBILE_FALLBACK_BUTTONS: ButtonDef[] = [
+  { id: "download", icon: <Download size={18} />, label: "Imagen" },
+  { id: "copy", icon: <Link size={18} />, label: "Copiar link" },
+  { id: "whatsapp", icon: <WhatsAppIcon />, label: "WhatsApp" },
+  { id: "twitter", icon: <XIcon />, label: "X" },
+];
+
+/* ── Share modes ─────────────────────────────────────────── */
+
+type ShareMode = "mobile-native" | "mobile-fallback" | "desktop";
 
 export default function ShareCTAInline() {
   const [loading, setLoading] = useState(false);
   const [toastMsg, setToastMsg] = useState<string | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
+  const [mode, setMode] = useState<ShareMode>("desktop");
 
-  /* Detect mobile after mount — avoids hydration mismatch */
+  /* Detect share mode after mount — avoids hydration mismatch */
   useEffect(() => {
-    setIsMobile(window.innerWidth < 768 && supportsNativeShare());
+    async function detectMode(): Promise<void> {
+      const isMobileViewport = window.innerWidth < 768;
+      if (!isMobileViewport) {
+        setMode("desktop");
+        return;
+      }
+      if (supportsNativeShare() && (await supportsFileShare())) {
+        setMode("mobile-native");
+      } else {
+        setMode("mobile-fallback");
+      }
+    }
+    detectMode();
   }, []);
 
   const handleShare = useCallback(
@@ -67,7 +98,7 @@ export default function ShareCTAInline() {
         setLoading(false);
       }
     },
-    [loading]
+    [loading],
   );
 
   const handleNativeShare = useCallback(async () => {
@@ -82,6 +113,9 @@ export default function ShareCTAInline() {
       setLoading(false);
     }
   }, [loading]);
+
+  /* Pick button set based on mode */
+  const buttons = mode === "desktop" ? DESKTOP_BUTTONS : MOBILE_FALLBACK_BUTTONS;
 
   return (
     <>
@@ -101,15 +135,15 @@ export default function ShareCTAInline() {
               fontFamily: "'DM Sans', sans-serif",
             }}
           >
-            ¿Te parecio util esta informacion?
+            ¿Te pareció útil esta información?
             <br />
             <span style={{ color: "var(--text-muted)" }}>
               Ayuda a otros colombianos a votar informado.
             </span>
           </p>
 
-          {/* Mobile: single prominent share button */}
-          {isMobile && (
+          {/* Mobile native: single prominent share button */}
+          {mode === "mobile-native" && (
             <motion.button
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
@@ -123,34 +157,64 @@ export default function ShareCTAInline() {
                 color: "#F0EFF4",
                 fontFamily: "'DM Sans', sans-serif",
               }}
+              aria-label="Compartir con imagen"
             >
               <Share2 size={18} />
               {loading ? "Generando imagen..." : "Compartir con imagen"}
             </motion.button>
           )}
 
-          {/* Desktop: platform buttons */}
-          <div className="flex flex-wrap justify-center gap-3">
-            {DESKTOP_BUTTONS.map((btn) => (
-              <motion.button
-                key={btn.id}
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => handleShare(btn.id)}
-                disabled={loading}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors"
-                style={{
-                  background: "rgba(255,255,255,0.05)",
-                  border: "1px solid rgba(255,255,255,0.1)",
-                  color: "#F0EFF4",
-                  fontFamily: "'DM Sans', sans-serif",
-                }}
-              >
-                {btn.icon}
-                <span className="hidden sm:inline">{btn.label}</span>
-              </motion.button>
-            ))}
-          </div>
+          {/* Desktop + mobile fallback: platform buttons */}
+          {mode !== "mobile-native" && (
+            <div className="flex flex-wrap justify-center gap-3">
+              {buttons.map((btn) => (
+                <motion.button
+                  key={btn.id}
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => handleShare(btn.id)}
+                  disabled={loading}
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors"
+                  style={{
+                    background: "rgba(255,255,255,0.05)",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    color: "#F0EFF4",
+                    fontFamily: "'DM Sans', sans-serif",
+                  }}
+                  aria-label={`Compartir en ${btn.label}`}
+                >
+                  {btn.icon}
+                  <span className="hidden sm:inline">{btn.label}</span>
+                </motion.button>
+              ))}
+            </div>
+          )}
+
+          {/* Mobile native: also show platform buttons below */}
+          {mode === "mobile-native" && (
+            <div className="flex flex-wrap justify-center gap-3">
+              {DESKTOP_BUTTONS.map((btn) => (
+                <motion.button
+                  key={btn.id}
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => handleShare(btn.id)}
+                  disabled={loading}
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors"
+                  style={{
+                    background: "rgba(255,255,255,0.05)",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    color: "#F0EFF4",
+                    fontFamily: "'DM Sans', sans-serif",
+                  }}
+                  aria-label={`Compartir en ${btn.label}`}
+                >
+                  {btn.icon}
+                  <span className="hidden sm:inline">{btn.label}</span>
+                </motion.button>
+              ))}
+            </div>
+          )}
         </div>
       </ScrollReveal>
 

@@ -2,9 +2,10 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Share2, X, Download } from "lucide-react";
+import { Share2, X, Download, Link } from "lucide-react";
 import {
   supportsNativeShare,
+  supportsFileShare,
   executePlatformShare,
   type SharePlatform,
 } from "./useShareActions";
@@ -12,6 +13,8 @@ import {
 interface ShareFABProps {
   onToast: (msg: string) => void;
 }
+
+/* ── Icon components ─────────────────────────────────────── */
 
 const WhatsAppIcon = ({ size = 20 }: { size?: number }) => (
   <svg viewBox="0 0 24 24" width={size} height={size} fill="currentColor">
@@ -37,8 +40,12 @@ const LinkedInIcon = () => (
   </svg>
 );
 
-/* Desktop: Facebook, WhatsApp, LinkedIn, X, Download — reversed because flex-col-reverse */
-const DESKTOP_PLATFORMS: { id: SharePlatform; icon: React.ReactNode; label: string }[] = [
+/* ── Platform menus ──────────────────────────────────────── */
+
+type MenuButton = { id: SharePlatform; icon: React.ReactNode; label: string };
+
+/* Desktop: Facebook, WhatsApp, LinkedIn, X, Download — reversed for flex-col-reverse */
+const DESKTOP_MENU: MenuButton[] = [
   { id: "download", icon: <Download size={20} />, label: "Imagen" },
   { id: "twitter", icon: <XIcon />, label: "X" },
   { id: "linkedin", icon: <LinkedInIcon />, label: "LinkedIn" },
@@ -46,18 +53,43 @@ const DESKTOP_PLATFORMS: { id: SharePlatform; icon: React.ReactNode; label: stri
   { id: "facebook", icon: <FacebookIcon />, label: "Facebook" },
 ];
 
+/* Mobile fallback (no file share): Imagen, Copiar link, WhatsApp, X — reversed */
+const MOBILE_FALLBACK_MENU: MenuButton[] = [
+  { id: "twitter", icon: <XIcon />, label: "X" },
+  { id: "whatsapp", icon: <WhatsAppIcon />, label: "WhatsApp" },
+  { id: "copy", icon: <Link size={20} />, label: "Copiar link" },
+  { id: "download", icon: <Download size={20} />, label: "Imagen" },
+];
+
+/* ── Share modes ─────────────────────────────────────────── */
+
+type ShareMode = "mobile-native" | "mobile-fallback" | "desktop";
+
 export default function ShareFAB({ onToast }: ShareFABProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [visible, setVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [mode, setMode] = useState<ShareMode>("desktop");
 
-  /* Detect mobile after mount to avoid hydration mismatch */
+  /* Detect share mode after mount — avoids hydration mismatch */
   useEffect(() => {
-    setIsMobile(window.innerWidth < 768 && supportsNativeShare());
+    async function detectMode(): Promise<void> {
+      const isMobileViewport = window.innerWidth < 768;
+      if (!isMobileViewport) {
+        setMode("desktop");
+        return;
+      }
+      if (supportsNativeShare() && (await supportsFileShare())) {
+        setMode("mobile-native");
+      } else {
+        setMode("mobile-fallback");
+      }
+    }
+    detectMode();
   }, []);
 
+  /* Hide on scroll down, show on scroll up */
   useEffect(() => {
     let ticking = false;
     const handleScroll = () => {
@@ -79,7 +111,8 @@ export default function ShareFAB({ onToast }: ShareFABProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
-  const handleShare = useCallback(
+  /* Handle platform button click from menu */
+  const handleMenuShare = useCallback(
     async (platform: SharePlatform) => {
       if (loading) return;
       setLoading(true);
@@ -93,12 +126,13 @@ export default function ShareFAB({ onToast }: ShareFABProps) {
         setIsOpen(false);
       }
     },
-    [loading, onToast]
+    [loading, onToast],
   );
 
+  /* Handle main FAB tap */
   const handleFABClick = useCallback(async () => {
-    if (isMobile) {
-      /* Mobile: share natively with image */
+    if (mode === "mobile-native") {
+      /* Native file share — best case */
       setLoading(true);
       try {
         const result = await executePlatformShare("native-with-image");
@@ -109,9 +143,14 @@ export default function ShareFAB({ onToast }: ShareFABProps) {
         setLoading(false);
       }
     } else {
+      /* Desktop or mobile fallback — toggle menu */
       setIsOpen((prev) => !prev);
     }
-  }, [isMobile, onToast]);
+  }, [mode, onToast]);
+
+  /* Pick the right menu for the current mode */
+  const menuItems = mode === "desktop" ? DESKTOP_MENU : MOBILE_FALLBACK_MENU;
+  const showMenu = mode !== "mobile-native";
 
   return (
     <AnimatePresence>
@@ -123,11 +162,12 @@ export default function ShareFAB({ onToast }: ShareFABProps) {
           transition={{ type: "spring", stiffness: 400, damping: 25 }}
           className="fixed bottom-6 right-6 z-[100] flex flex-col-reverse items-center gap-3"
         >
-          {/* Desktop platform icons */}
+          {/* Platform menu (desktop + mobile fallback) */}
           <AnimatePresence mode="sync">
-            {isOpen &&
-              DESKTOP_PLATFORMS.map((p, i) => {
-                const total = DESKTOP_PLATFORMS.length;
+            {showMenu &&
+              isOpen &&
+              menuItems.map((p, i) => {
+                const total = menuItems.length;
                 const enterDelay = i * 0.04;
                 const exitDelay = (total - 1 - i) * 0.03;
                 return (
@@ -155,7 +195,7 @@ export default function ShareFAB({ onToast }: ShareFABProps) {
                         delay: exitDelay,
                       },
                     }}
-                    onClick={() => handleShare(p.id)}
+                    onClick={() => handleMenuShare(p.id)}
                     disabled={loading}
                     className="h-11 rounded-full flex items-center gap-2 px-4 transition-colors whitespace-nowrap"
                     style={{
@@ -166,6 +206,7 @@ export default function ShareFAB({ onToast }: ShareFABProps) {
                       fontSize: "14px",
                       fontFamily: "'DM Sans', sans-serif",
                     }}
+                    aria-label={`Compartir en ${p.label}`}
                     title={p.label}
                   >
                     {p.icon}
