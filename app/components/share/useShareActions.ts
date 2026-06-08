@@ -43,14 +43,31 @@ async function generateCanvas(variant: "1x1" | "9x16"): Promise<HTMLCanvasElemen
   if (!element) throw new Error(`Share card not found: share-card-${variant}`);
 
   await document.fonts.ready;
+
+  /* Move element on-screen so Android Chrome loads background images.
+     Off-screen elements (left: -9999px) get their backgroundImage skipped
+     as a browser optimization, resulting in 0×0 image dimensions. */
+  element.style.left = "0px";
+  element.style.zIndex = "-9999";
+
   await preloadCORSImages(element);
 
-  return html2canvas(element, {
-    scale: 2,
-    useCORS: true,
-    allowTaint: false,
-    backgroundColor: null,
-  });
+  /* Give the browser a frame to paint the background images */
+  await new Promise((r) => requestAnimationFrame(r));
+
+  try {
+    const canvas = await html2canvas(element, {
+      scale: 2,
+      useCORS: true,
+      allowTaint: false,
+      backgroundColor: null,
+    });
+    return canvas;
+  } finally {
+    /* Always move it back off-screen */
+    element.style.left = "-9999px";
+    element.style.zIndex = "";
+  }
 }
 
 function canvasToBlob(canvas: HTMLCanvasElement): Promise<Blob> {
