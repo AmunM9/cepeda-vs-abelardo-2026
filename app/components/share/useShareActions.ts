@@ -76,7 +76,7 @@ async function generateCanvas(
   await document.fonts.ready;
 
   /* Replace remote CSS backgroundImage URLs with base64 data URLs.
-     This is the nuclear option that bypasses every CORS / off-screen issue. */
+     Data URLs are same-origin and don't depend on browser painting. */
   const restoreImages = await inlineBackgroundImages(element);
 
   try {
@@ -85,6 +85,19 @@ async function generateCanvas(
       useCORS: true,
       allowTaint: false,
       backgroundColor: null,
+      /* html2canvas clones the DOM into a hidden iframe at left:-10000px and
+         re-computes layout. Our element is at left:-9999px, so the clone also
+         gets zero computed dimensions → createPattern fails with "width or
+         height of 0" (html2canvas #2981). onclone lets us fix the clone's
+         position without touching the original or causing a visual flash. */
+      onclone: (clonedDoc: Document) => {
+        const clone = clonedDoc.getElementById(`share-card-${variant}`);
+        if (clone) {
+          clone.style.position = "absolute";
+          clone.style.left = "0";
+          clone.style.top = "0";
+        }
+      },
     });
     return canvas;
   } finally {
