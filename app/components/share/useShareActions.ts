@@ -68,49 +68,47 @@ export type SharePlatform =
 export interface ShareResult {
   success: boolean;
   toast: string;
+  /** true when the user explicitly cancelled the native share sheet */
+  cancelled?: boolean;
 }
 
 /**
- * Mobile: native share with generated image attached (falls back to link-only).
+ * Mobile: native share with generated image attached.
+ * Returns { success: false, cancelled: true } when user dismissed the share sheet.
+ * Returns { success: false, cancelled: false } when file sharing failed at runtime
+ * (signals the caller to switch to fallback mode).
  */
 export async function shareNativeWithImage(): Promise<ShareResult> {
   try {
-    const canShareFile = await supportsFileShare();
+    const canvas = await generateCanvas("1x1");
+    const blob = await canvasToBlob(canvas);
+    const file = new File([blob], "colombia-elige-2026.png", { type: "image/png" });
 
-    if (canShareFile) {
-      const canvas = await generateCanvas("1x1");
-      const blob = await canvasToBlob(canvas);
-      const file = new File([blob], "colombia-elige-2026.png", { type: "image/png" });
-
-      await navigator.share({
-        text: `${SHARE_TEXT} \u{2192} ${SITE_URL}`,
-        files: [file],
-      });
-      return { success: true, toast: "\u{00A1}Compartido con imagen!" };
-    }
-
-    // Fallback: link-only native share
     await navigator.share({
-      title: "Colombia Elige 2026 — Cepeda vs. De la Espriella",
-      text: SHARE_TEXT,
-      url: SITE_URL,
+      text: `${SHARE_TEXT} \u{2192} ${SITE_URL}`,
+      files: [file],
     });
-    return { success: true, toast: "\u{00A1}Compartido!" };
-  } catch {
-    return { success: false, toast: "Compartir cancelado" };
+    return { success: true, toast: "\u{00A1}Compartido con imagen!", cancelled: false };
+  } catch (err: unknown) {
+    /* User tapped "Cancel" on the share sheet */
+    if (err instanceof DOMException && err.name === "AbortError") {
+      return { success: false, toast: "Compartir cancelado", cancelled: true };
+    }
+    /* Runtime failure (device lied about canShare, or share crashed) */
+    return { success: false, toast: "", cancelled: false };
   }
 }
 
 /**
- * PC: open Facebook share dialog.
+ * Open Facebook share dialog.
+ * Uses location.href as fallback — in-app browsers often block window.open popups.
  */
 export function shareToFacebook(): ShareResult {
-  const url = encodeURIComponent(SITE_URL);
-  const quote = encodeURIComponent(SHARE_TEXT);
-  window.open(
-    `https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${quote}`,
-    "_blank"
-  );
+  const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(SITE_URL)}&quote=${encodeURIComponent(SHARE_TEXT)}`;
+  const popup = window.open(shareUrl, "_blank");
+  if (!popup || popup.closed) {
+    window.location.href = shareUrl;
+  }
   return { success: true, toast: "Abriendo Facebook..." };
 }
 
@@ -129,11 +127,17 @@ export function shareToLinkedIn(): ShareResult {
 }
 
 /**
- * PC: open WhatsApp web with pre-filled message (no image download).
+ * Open WhatsApp with pre-filled message.
+ * Uses api.whatsapp.com/send which reliably opens the contact picker
+ * on both mobile and desktop, unlike wa.me which fails in some in-app browsers.
  */
 export function shareToWhatsApp(): ShareResult {
   const text = encodeURIComponent(`${SHARE_TEXT} \u{2192} ${SITE_URL}`);
-  window.open(`https://wa.me/?text=${text}`, "_blank");
+  const shareUrl = `https://api.whatsapp.com/send?text=${text}`;
+  const popup = window.open(shareUrl, "_blank");
+  if (!popup || popup.closed) {
+    window.location.href = shareUrl;
+  }
   return { success: true, toast: "Abriendo WhatsApp..." };
 }
 

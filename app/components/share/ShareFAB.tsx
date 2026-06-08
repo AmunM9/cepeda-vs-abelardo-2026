@@ -136,9 +136,19 @@ export default function ShareFAB({ onToast }: ShareFABProps) {
       setLoading(true);
       try {
         const result = await executePlatformShare("native-with-image");
-        if (result.toast) onToast(result.toast);
+        if (result.cancelled === false && !result.success) {
+          /* Runtime failure — device can't actually share files.
+             Switch to fallback menu permanently for this session. */
+          setMode("mobile-fallback");
+          setIsOpen(true);
+          onToast("Usa estas opciones para compartir");
+        } else if (result.toast) {
+          onToast(result.toast);
+        }
       } catch {
-        onToast("Error al compartir");
+        setMode("mobile-fallback");
+        setIsOpen(true);
+        onToast("Usa estas opciones para compartir");
       } finally {
         setLoading(false);
       }

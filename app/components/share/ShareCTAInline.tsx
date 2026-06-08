@@ -106,9 +106,16 @@ export default function ShareCTAInline() {
     setLoading(true);
     try {
       const result = await executePlatformShare("native-with-image");
-      if (result.toast) setToastMsg(result.toast);
+      if (result.cancelled === false && !result.success) {
+        /* Runtime failure — switch to fallback buttons permanently */
+        setMode("mobile-fallback");
+        setToastMsg("Usa estas opciones para compartir");
+      } else if (result.toast) {
+        setToastMsg(result.toast);
+      }
     } catch {
-      setToastMsg("Error al compartir");
+      setMode("mobile-fallback");
+      setToastMsg("Usa estas opciones para compartir");
     } finally {
       setLoading(false);
     }
