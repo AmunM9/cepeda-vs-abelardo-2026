@@ -9,51 +9,75 @@ const SHARE_TEXT =
 /* ── Image generation ─────────────────────────────────────── */
 
 /**
- * Preload cross-origin images with CORS so they land in the browser cache
- * with the right headers BEFORE html2canvas reads them. Without this,
- * CSS backgroundImage loads bypass CORS, tainting the canvas on Android Chrome
- * and causing toBlob() to throw a security error.
+ * Fetch a remote image and return it as a base64 data URL.
+ * Data URLs are always same-origin — they bypass every CORS issue and don't
+ * depend on the browser having painted a CSS backgroundImage (which Android
+ * Chrome skips for off-screen elements).
  */
-async function preloadCORSImages(element: HTMLElement): Promise<void> {
+async function fetchAsDataURL(url: string): Promise<string> {
+  const res = await fetch(url, { mode: "cors" });
+  const blob = await res.blob();
+  return new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result as string);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
+}
+
+/**
+ * Find every child element whose inline style has a CSS backgroundImage URL,
+ * fetch each image, and swap the URL to a base64 data URL in-place.
+ * Returns a restore function that puts the original URLs back.
+ *
+ * This solves three Android Chrome problems at once:
+ * 1) Off-screen elements don't load backgroundImage — data URLs need no load.
+ * 2) CORS cache-key mismatch between <img crossOrigin> and CSS bg — gone.
+ * 3) html2canvas clones the DOM, so moving the original element on-screen
+ *    doesn't help the clone — data URLs are already embedded in the style.
+ */
+async function inlineBackgroundImages(
+  element: HTMLElement,
+): Promise<() => void> {
   const bgElements = element.querySelectorAll<HTMLElement>("[style]");
-  const urls: string[] = [];
+  const restoreFns: Array<() => void> = [];
+
+  const work: Array<Promise<void>> = [];
 
   bgElements.forEach((el) => {
     const bg = el.style.backgroundImage;
     const match = bg.match(/url\(['"]?(https?:\/\/[^'")\s]+)['"]?\)/);
-    if (match) urls.push(match[1]);
+    if (!match) return;
+
+    const originalBg = bg;
+    const url = match[1];
+
+    work.push(
+      fetchAsDataURL(url).then((dataUrl) => {
+        el.style.backgroundImage = `url('${dataUrl}')`;
+        restoreFns.push(() => {
+          el.style.backgroundImage = originalBg;
+        });
+      }),
+    );
   });
 
-  await Promise.all(
-    urls.map(
-      (url) =>
-        new Promise<void>((resolve) => {
-          const img = new Image();
-          img.crossOrigin = "anonymous";
-          img.onload = () => resolve();
-          img.onerror = () => resolve(); /* don't block on failure */
-          img.src = url;
-        }),
-    ),
-  );
+  await Promise.all(work);
+
+  return () => restoreFns.forEach((fn) => fn());
 }
 
-async function generateCanvas(variant: "1x1" | "9x16"): Promise<HTMLCanvasElement> {
+async function generateCanvas(
+  variant: "1x1" | "9x16",
+): Promise<HTMLCanvasElement> {
   const element = document.getElementById(`share-card-${variant}`);
   if (!element) throw new Error(`Share card not found: share-card-${variant}`);
 
   await document.fonts.ready;
 
-  /* Move element on-screen so Android Chrome loads background images.
-     Off-screen elements (left: -9999px) get their backgroundImage skipped
-     as a browser optimization, resulting in 0×0 image dimensions. */
-  element.style.left = "0px";
-  element.style.zIndex = "-9999";
-
-  await preloadCORSImages(element);
-
-  /* Give the browser a frame to paint the background images */
-  await new Promise((r) => requestAnimationFrame(r));
+  /* Replace remote CSS backgroundImage URLs with base64 data URLs.
+     This is the nuclear option that bypasses every CORS / off-screen issue. */
+  const restoreImages = await inlineBackgroundImages(element);
 
   try {
     const canvas = await html2canvas(element, {
@@ -64,9 +88,7 @@ async function generateCanvas(variant: "1x1" | "9x16"): Promise<HTMLCanvasElemen
     });
     return canvas;
   } finally {
-    /* Always move it back off-screen */
-    element.style.left = "-9999px";
-    element.style.zIndex = "";
+    restoreImages();
   }
 }
 
