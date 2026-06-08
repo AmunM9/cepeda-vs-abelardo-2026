@@ -8,16 +8,47 @@ const SHARE_TEXT =
 
 /* ── Image generation ─────────────────────────────────────── */
 
+/**
+ * Preload cross-origin images with CORS so they land in the browser cache
+ * with the right headers BEFORE html2canvas reads them. Without this,
+ * CSS backgroundImage loads bypass CORS, tainting the canvas on Android Chrome
+ * and causing toBlob() to throw a security error.
+ */
+async function preloadCORSImages(element: HTMLElement): Promise<void> {
+  const bgElements = element.querySelectorAll<HTMLElement>("[style]");
+  const urls: string[] = [];
+
+  bgElements.forEach((el) => {
+    const bg = el.style.backgroundImage;
+    const match = bg.match(/url\(['"]?(https?:\/\/[^'")\s]+)['"]?\)/);
+    if (match) urls.push(match[1]);
+  });
+
+  await Promise.all(
+    urls.map(
+      (url) =>
+        new Promise<void>((resolve) => {
+          const img = new Image();
+          img.crossOrigin = "anonymous";
+          img.onload = () => resolve();
+          img.onerror = () => resolve(); /* don't block on failure */
+          img.src = url;
+        }),
+    ),
+  );
+}
+
 async function generateCanvas(variant: "1x1" | "9x16"): Promise<HTMLCanvasElement> {
   const element = document.getElementById(`share-card-${variant}`);
   if (!element) throw new Error(`Share card not found: share-card-${variant}`);
 
   await document.fonts.ready;
+  await preloadCORSImages(element);
 
   return html2canvas(element, {
     scale: 2,
     useCORS: true,
-    allowTaint: true,
+    allowTaint: false,
     backgroundColor: null,
   });
 }
